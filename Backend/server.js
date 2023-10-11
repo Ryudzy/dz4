@@ -69,6 +69,7 @@ app.post('/api/login', (req, res) => {
 app.get('/api/products', authMiddleware, (req, res) => {
     res.json(products);
 });
+
 app.put('/api/products/:productId', authMiddleware, (req, res) => {
     const productId = parseInt(req.params.productId);
     const { quantity } = req.body;

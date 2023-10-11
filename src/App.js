@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const API_ROOT  = 'http://localhost:8080';
+const API_ROOT = 'http://localhost:8080';
 
 const App = () => {
     const [imageIndex, setImageIndex] = useState(0);
@@ -24,7 +24,14 @@ const App = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('/api/products');
+            const response = await fetch(API_ROOT + '/api/products', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                }
+            }
+            );
             const data = await response.json();
             setProducts(data);
         } catch (error) {
@@ -45,14 +52,14 @@ const App = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*', 
-  },
-  body: JSON.stringify({ username: login, password }),
-});
+            const response = await fetch(API_ROOT + '/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({ username: login, password }),
+            });
 
 
             if (response.ok) {
@@ -79,7 +86,7 @@ const App = () => {
     const handleRegistration = async () => {
         if (password === confirmPassword) {
             try {
-                const response = await fetch('/api/register', {
+                const response = await fetch(API_ROOT + '/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -106,7 +113,7 @@ const App = () => {
 
     const incrementProductQuantity = async (productId) => {
         try {
-            const response = await fetch(`/api/products/${productId}`, {
+            const response = await fetch(API_ROOT + '/api/products/${productId}', {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Basic ' + btoa(`${login}:${password}`),
@@ -127,7 +134,7 @@ const App = () => {
 
     const decrementProductQuantity = async (productId) => {
         try {
-            const response = await fetch(`/api/products/${productId}`, {
+            const response = await fetch(API_ROOT + '/api/products/${productId}', {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Basic ' + btoa(`${login}:${password}`),
@@ -197,9 +204,11 @@ const App = () => {
                 </div>
             );
         } else if (currentPage === 'products') {
+            fetchProducts();
             return (
                 <div className="products">
-                    {products.map((product) => (
+                    {
+                    products.map((product) => (
                         <div className="product-card" key={product.id}>
                             <img src={product.image} alt={product.name} className="product-image" />
                             <h3>{product.name}</h3>
