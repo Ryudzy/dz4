@@ -60,7 +60,8 @@ app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const isValidUser = validateUser(username, password);
     if (isValidUser) {
-        res.sendStatus(200);
+        authData = Buffer.from(username + ':' + password).toString('base64')
+        res.json(authData);
     } else {
         res.sendStatus(401);
     }
