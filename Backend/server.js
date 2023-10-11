@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = 8080;
 
@@ -32,6 +33,9 @@ const products = [
         image: '/images/hinkal.jpg',
     },
 ];
+
+app.use(cors());
+
 app.use(express.json());
 
 app.post('/api/register', (req, res) => {
@@ -70,9 +74,7 @@ function validateUser(username, password) {
     const user = users.find((user) => user.username === username && user.password === password);
     return !!user;
 }
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-
-
