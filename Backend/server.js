@@ -29,10 +29,22 @@ const products = [
     {
         id: 1,
         name: 'Хинкалич',
-        quantity: 5,
+        quantity: 0,
         image: '/images/hinkal.jpg',
     },
-];
+    {
+        id: 2,
+        name: 'Печенич',
+        quantity: 0,
+        image: '/images/pechen.jpg',
+      },
+      {
+        id: 3,
+        name: 'Огузок',
+        quantity: 0,
+        image: '/images/oguzok.png',
+      },
+    ];
 
 app.use(cors());
 

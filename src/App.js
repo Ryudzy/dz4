@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const API_ROOT :string = 'http://localhost:8080'
+const API_ROOT  = 'http://localhost:8080';
 
 const App = () => {
     const [imageIndex, setImageIndex] = useState(0);
