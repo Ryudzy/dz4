@@ -4,7 +4,7 @@ const app = express();
 const PORT = 8080;
 
 const authMiddleware = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers['Authorization'];
     if (!authHeader) {
         res.sendStatus(401);
         return;
@@ -60,8 +60,8 @@ app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const isValidUser = validateUser(username, password);
     if (isValidUser) {
-        authData = Buffer.from(username + ':' + password).toString('base64')
-        res.json(authData);
+        token = Buffer.from(username + ':' + password).toString('base64')
+        res.json({'token': token});
     } else {
         res.sendStatus(401);
     }

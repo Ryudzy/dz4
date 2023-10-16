@@ -15,6 +15,7 @@ const App = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [products, setProducts] = useState([]);
+    const [token, SetToken] = useState('');
 
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const App = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': 'Bearer ' + token
                 }
             }
             );
@@ -65,6 +67,9 @@ const App = () => {
             if (response.ok) {
                 setIsLoggedIn(true);
                 setLoginError('');
+                const getted_token = await response.json();
+                console.log(getted_token['token']);
+                SetToken(getted_token['token']);
             } else {
                 setIsLoggedIn(false);
                 setLoginError('Неправильный логин или пароль');
