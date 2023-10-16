@@ -37,14 +37,14 @@ const products = [
         name: 'Печенич',
         quantity: 0,
         image: '/images/pechen.jpg',
-      },
-      {
+    },
+    {
         id: 3,
         name: 'Огузок',
         quantity: 0,
         image: '/images/oguzok.png',
-      },
-    ];
+    },
+];
 
 app.use(cors());
 
@@ -61,7 +61,7 @@ app.post('/api/login', (req, res) => {
     const isValidUser = validateUser(username, password);
     if (isValidUser) {
         token = Buffer.from(username + ':' + password).toString('base64')
-        res.json({'token': token});
+        res.json({ 'token': token });
     } else {
         res.sendStatus(401);
     }
@@ -74,7 +74,7 @@ app.get('/api/products', authMiddleware, (req, res) => {
 app.put('/api/products/:productId', authMiddleware, (req, res) => {
     const productId = parseInt(req.params.productId);
     const { quantity } = req.body;
-    
+
     console.log(productId)
     const updatedProduct = products.find((product) => product.id === productId);
     if (updatedProduct) {

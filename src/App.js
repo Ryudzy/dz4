@@ -36,6 +36,7 @@ const App = () => {
             );
             const data = await response.json();
             setProducts(data);
+            console.log(products);
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -116,15 +117,22 @@ const App = () => {
     };
 
 
-    const incrementProductQuantity = async (productId) => {
+    const changeProductQuantity = async (product, increment) => {
+        let quantity = product.quantity;
+        if (increment) {
+            quantity += 1;
+        }
+        else {
+            quantity > 0 ? quantity = product.quantity - 1 : quantity = 0;
+        }
         try {
-            const response = await fetch(API_ROOT + '/api/products/${productId}', {
+            const response = await fetch(API_ROOT + `/api/products/${product.id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Basic ' + btoa(`${login}:${password}`),
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ quantity: 1 }),
+                body: JSON.stringify({ 'quantity': quantity }),
             });
 
 
@@ -133,27 +141,6 @@ const App = () => {
             }
         } catch (error) {
             console.error('Error incrementing product quantity:', error);
-        }
-    };
-
-
-    const decrementProductQuantity = async (productId) => {
-        try {
-            const response = await fetch(API_ROOT + '/api/products/${productId}', {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Basic ' + btoa(`${login}:${password}`),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ quantity: -1 }),
-            });
-
-
-            if (response.ok) {
-                fetchProducts();
-            }
-        } catch (error) {
-            console.error('Error decrementing product quantity:', error);
         }
     };
 
@@ -213,15 +200,15 @@ const App = () => {
             return (
                 <div className="products">
                     {
-                    products.map((product) => (
-                        <div className="product-card" key={product.id}>
-                            <img src={product.image} alt={product.name} className="product-image" />
-                            <h3>{product.name}</h3>
-                            <p>Количество: {product.quantity}</p>
-                            <button className="pink-button" onClick={() => incrementProductQuantity(product.id)}>+</button>
-                            <button className="pink-button" onClick={() => decrementProductQuantity(product.id)}>-</button>
-                        </div>
-                    ))}
+                        products.map((product) => (
+                            <div className="product-card" key={product.id}>
+                                <img src={product.image} alt={product.name} className="product-image" />
+                                <h3>{product.name}</h3>
+                                <p>Количество: {product.quantity}</p>
+                                <button className="pink-button" onClick={() => changeProductQuantity(product, true)}>+</button>
+                                <button className="pink-button" onClick={() => changeProductQuantity(product, false)}>-</button>
+                            </div>
+                        ))}
                 </div>
             );
         }
