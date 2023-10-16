@@ -4,7 +4,7 @@ const app = express();
 const PORT = 8080;
 
 const authMiddleware = (req, res, next) => {
-    const authHeader = req.headers['Authorization'];
+    const authHeader = req.headers['authorization'];
     if (!authHeader) {
         res.sendStatus(401);
         return;
@@ -74,7 +74,8 @@ app.get('/api/products', authMiddleware, (req, res) => {
 app.put('/api/products/:productId', authMiddleware, (req, res) => {
     const productId = parseInt(req.params.productId);
     const { quantity } = req.body;
-
+    
+    console.log(productId)
     const updatedProduct = products.find((product) => product.id === productId);
     if (updatedProduct) {
         updatedProduct.quantity = quantity;
