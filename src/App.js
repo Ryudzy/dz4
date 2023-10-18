@@ -30,7 +30,7 @@ const App = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Basic ' + btoa(`${login}:${password}`),
                 }
             }
             );
@@ -52,7 +52,6 @@ const App = () => {
         setCurrentPage(page);
     };
 
-
     const handleLogin = async () => {
         try {
             const response = await fetch(API_ROOT + '/api/login', {
@@ -60,17 +59,13 @@ const App = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
+                    'Authorization': 'Basic ' + btoa(`${login}:${password}`),
                 },
                 body: JSON.stringify({ username: login, password }),
             });
-
-
             if (response.ok) {
                 setIsLoggedIn(true);
                 setLoginError('');
-                const getted_token = await response.json();
-                console.log(getted_token['token']);
-                SetToken(getted_token['token']);
             } else {
                 setIsLoggedIn(false);
                 setLoginError('Неправильный логин или пароль');
@@ -79,7 +74,6 @@ const App = () => {
             console.error('Error during login:', error);
         }
     };
-
 
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -186,7 +180,7 @@ const App = () => {
             return (
                 <div className="content">
                     <h1>Мама, я не хочу умирать</h1>
-                    <div className="image-container" onClick={toggleImage}>
+                    <div>
                         <img
                             src={imageIndex === 0 ? process.env.PUBLIC_URL + '/images/image1.jpg' : process.env.PUBLIC_URL + '/images/image2.jpg'}
                             alt="Main Image"
@@ -225,9 +219,8 @@ const App = () => {
                         {isLoggedIn && <li onClick={() => handleMenuClick('products')} className="menu-item">Товары</li>}
                     </ul>
                 </nav>
-                <div className="cart">
-                    <img src={process.env.PUBLIC_URL + '/images/cart icon.png'} alt="Cart Icon" />
-                    <span className="cart-count">{totalQuantity}</span> { }
+                <div className="logout-button">
+                    {isLoggedIn && <button onClick={handleLogout}>Выйти</button>}
                 </div>
             </header>
             {renderPage()}
@@ -237,6 +230,3 @@ const App = () => {
 
 
 export default App;
-
-
-
