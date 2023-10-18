@@ -32,7 +32,6 @@ const products = [
         image: '/images/oguzok.png',
     },
 ];
-//ijoij
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers['authorization'];

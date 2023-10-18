@@ -20,8 +20,7 @@ const App = () => {
 
     useEffect(() => {
         fetchProducts();
-    }, []);
-
+    }, [isLoggedIn]);
 
     const fetchProducts = async () => {
         try {
@@ -171,7 +170,7 @@ const App = () => {
             );
         }
     };
-
+console.log(products);
 
     const renderPage = () => {
         if (!isLoggedIn) {
@@ -190,7 +189,6 @@ const App = () => {
                 </div>
             );
         } else if (currentPage === 'products') {
-            fetchProducts();
             return (
                 <div className="products">
                     {
