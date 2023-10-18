@@ -32,6 +32,7 @@ const products = [
         image: '/images/oguzok.png',
     },
 ];
+//ijoij
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -39,6 +40,7 @@ const authMiddleware = (req, res, next) => {
         res.sendStatus(401);
         return;
     }
+    console.log()
     const authData = authHeader.split(' ')[1];
     const [username, password] = Buffer.from(authData, 'base64').toString().split(':');
     const isValidUser = validateUser(username, password);
